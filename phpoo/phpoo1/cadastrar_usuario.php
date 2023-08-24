@@ -24,7 +24,7 @@
     <img class= "ornaments" src="img/ornaments-coffee.png" alt="ornaments">
   </section>
   <section class="container-form">
-  <form method="post">
+  <form method="post" action="processar_cadastro.php">
 
     <label for="nome">Nome</label>
     <input type="text" id="nome" name="nome" placeholder="Digite o seu nome" required>
@@ -32,8 +32,19 @@
     <label for="email">E-mail</label>
     <input type="email" id="email" name="email" placeholder="Digite o seu e-mail" required>
 
-    <label for="password">Senha</label>
-    <input type="password" id="senha" placeholder="Digite a sua senha" required>
+    <label for="senha">Senha</label>
+    <input type="password" id="senha" name="senha" placeholder="Digite a sua senha" required>
+
+    <label for="confirmarsenha">Confimar Senha</label>
+    <input type="password" id="confirmarsenha" name="confirmarsenha" placeholder="Confimar senha" required>
+
+    <?php
+    if (isset($_GET["erro"]))
+    {
+      ?>
+      <label for="erro">Senha e confirmar senha não são iguais</label>
+    <?php } ?>
+    
 
     <input type="submit" name="cadastro" class="botao-cadastrar" value="Entrar"/>
   </form>
@@ -41,27 +52,3 @@
 </main>
 </body>
 </html>
-
-<?php
-    include 'conexao.php';
-    include 'usuario.php';
-
-    if ($_SERVER["REQUEST_METHOD"]=="POST")
-    {
-        $nome = $_POST["nome"];
-        $email = $_POST["email"];
-        $senha = $_POST["senha"];
-
-        $usuario = new Usuario($conn);
-
-        if ($usuario->cadastrar($nome, $email, $senha))
-        {
-            header("Location: cadastrar_usuario_sucesso.php");
-            exit();
-        }
-        else
-        {
-            echo "erro! tente novamente!";
-        }
-    }
-?>
